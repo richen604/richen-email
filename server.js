@@ -1,11 +1,11 @@
 require("dotenv").config()
-//const { urlencoded } = require("body-parser")
+const { json } = require("body-parser")
 const express = require("express")
 const { body, validationResult } = require("express-validator")
 const nodemailer = require("nodemailer")
 const cors = require("cors")
 const app = express()
-//app.use(urlencoded())
+app.use(json())
 app.use(cors())
 const mailer = nodemailer.createTransport({
   service: "Gmail",
