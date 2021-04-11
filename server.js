@@ -28,8 +28,8 @@ app.post(
     }
     mailer.sendMail(
       {
-        from: req.body.email,
-        to: [process.env.CONTACT_EMAIL],
+        from: process.env.CONTACT_EMAIL,
+        to: req.body.email,
         subject: req.body.subject || "[No subject]",
         html: req.body.message || "[No message]",
       },
