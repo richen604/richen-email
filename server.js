@@ -5,11 +5,7 @@ const { body, validationResult } = require("express-validator")
 const nodemailer = require("nodemailer")
 const cors = require("cors")
 const app = express()
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-)
+app.use(bodyParser.urlencoded())
 app.use(cors())
 const mailer = nodemailer.createTransport({
   service: "Gmail",
@@ -20,7 +16,7 @@ const mailer = nodemailer.createTransport({
 })
 app.post(
   "/contact",
-  body("email").isEmail().normalizeEmail().escape(),
+  body("email").isEmail().normalizeEmail(),
   body("name").not().isEmpty().trim().escape(),
   body("subject").not().isEmpty().trim().escape(),
   body("message").not().isEmpty().trim().escape(),
