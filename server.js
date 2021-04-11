@@ -29,10 +29,10 @@ app.post(
     }
     mailer.sendMail(
       {
-        from: `${req.body.name + req.body.email}`,
+        from: `${req.body.name + process.env.CONTACT_EMAIL}`,
         to: process.env.CONTACT_EMAIL,
         subject: req.body.subject || "[No subject]",
-        html: req.body.message || "[No message]",
+        html: `${req.body.email} \n\n ${req.body.message}` || "[No message]",
       },
       function (err) {
         if (err) return res.status(500).send(err)
