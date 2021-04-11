@@ -3,12 +3,14 @@ const bodyParser = require("body-parser")
 const express = require("express")
 const { body, validationResult } = require("express-validator")
 const nodemailer = require("nodemailer")
+const cors = require("cors")
 const app = express()
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 )
+app.use(cors())
 const mailer = nodemailer.createTransport({
   service: "Gmail",
   auth: {
