@@ -9,7 +9,8 @@ app.use(json())
 app.use(urlencoded())
 app.use(cors())
 const mailer = nodemailer.createTransport({
-  service: "Gmail",
+  service: "gmail",
+  host: "smtp.gmail.com",
   auth: {
     user: process.env.GMAIL_ADDRESS,
     pass: process.env.GMAIL_PASSWORD,
@@ -28,7 +29,7 @@ app.post(
     }
     mailer.sendMail(
       {
-        from: `${req.body.name} ${req.body.email}`,
+        from: `${req.body.name + req.body.email}`,
         to: process.env.CONTACT_EMAIL,
         subject: req.body.subject || "[No subject]",
         html: req.body.message || "[No message]",
