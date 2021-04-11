@@ -1,7 +1,7 @@
 require("dotenv").config()
 const bodyParser = require("body-parser")
 const express = require("express")
-const body = require("express-validator")
+const { body, validationResult } = require("express-validator")
 const nodemailer = require("nodemailer")
 const app = express()
 app.use(
@@ -23,6 +23,10 @@ app.post(
   body("subject").not().isEmpty().trim().escape(),
   body("message").not().isEmpty().trim().escape(),
   (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() })
+    }
     mailer.sendMail(
       {
         from: req.body.email,
