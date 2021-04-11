@@ -1,11 +1,12 @@
 require("dotenv").config()
-const { json } = require("body-parser")
+const { json, urlencoded } = require("body-parser")
 const express = require("express")
 const { body, validationResult } = require("express-validator")
 const nodemailer = require("nodemailer")
 const cors = require("cors")
 const app = express()
 app.use(json())
+app.use(urlencoded())
 app.use(cors())
 const mailer = nodemailer.createTransport({
   service: "Gmail",
@@ -16,19 +17,11 @@ const mailer = nodemailer.createTransport({
 })
 app.post(
   "/contact",
-  body("email").isEmail().normalizeEmail(),
+  body("email").isEmail().normalizeEmail().escape(),
   body("name").not().isEmpty().trim().escape(),
   body("subject").not().isEmpty().trim().escape(),
   body("message").not().isEmpty().trim().escape(),
   (req, res) => {
-    const test = {
-      email: req.body.email,
-      name: req.body.name,
-      subject: req.body.subject,
-      message: req.body.message,
-    }
-
-    console.log(test)
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() })
