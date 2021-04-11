@@ -18,7 +18,7 @@ const mailer = nodemailer.createTransport({
 })
 app.post(
   "/contact",
-  body("email").isEmail().normalizeEmail(),
+  body("email").isEmail().normalizeEmail().escape(),
   body("name").not().isEmpty().trim().escape(),
   body("subject").not().isEmpty().trim().escape(),
   body("message").not().isEmpty().trim().escape(),
@@ -37,6 +37,11 @@ app.post(
     )
   }
 )
+
+app.get("/health", (req, res) => {
+  res.send("ok")
+})
+
 app.listen(process.env.PORT, () => {
   console.log(`richen-emailer ready at ${process.env.PORT}`)
 })
