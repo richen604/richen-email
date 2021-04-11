@@ -21,6 +21,14 @@ app.post(
   body("subject").not().isEmpty().trim().escape(),
   body("message").not().isEmpty().trim().escape(),
   (req, res) => {
+    const test = {
+      email: req.body.email,
+      name: req.body.name,
+      subject: req.body.subject,
+      message: req.body.message,
+    }
+
+    console.log(test)
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() })
